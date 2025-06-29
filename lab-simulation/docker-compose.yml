@@ -1,0 +1,25 @@
+
+version: '3.8'
+services:
+  router:
+    image: frrouting/frr:latest
+    container_name: frr-router
+    networks:
+      ipv6-net:
+        ipv6_address: "2001:db8:af01::1"
+
+  client:
+    image: ubuntu
+    container_name: ipv6-client
+    command: sleep infinity
+    networks:
+      ipv6-net:
+        ipv6_address: "2001:db8:af01::100"
+
+networks:
+  ipv6-net:
+    enable_ipv6: true
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "2001:db8:af01::/64"
